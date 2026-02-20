@@ -119,7 +119,7 @@ const MENU_DATA = [{
 // Слоган и ссылки на соцсети — редактируйте здесь.
 // =====================================================
 const WIDGET_CONFIG = {
-    slogan: "Ткани из Италии, Франции и Японии — доставка по России",
+    slogan: "Ткани из Италии, Франции и\u00A0Японии с\u00A0доставкой по\u00A0России",
     phone: "+7 969 209-67-52",
     socials: [
         { type: "whatsapp", href: "https://wa.me/79692096752", label: "WhatsApp" },
@@ -148,6 +148,33 @@ const WIDGET_CONFIG = {
     --bz-link-hover: #7a1a0f;
     --bz-font: Raleway, "Helvetica Neue", Arial, sans-serif;
     --bz-transition: 180ms ease;
+
+    /* Accent-цвета */
+    --bz-accent-rgb: 46, 73, 69;
+    --bz-accent: rgb(var(--bz-accent-rgb));
+    --bz-accent-hover: rgba(var(--bz-accent-rgb), 0.55);
+    --bz-border-color: #e5e5e5;
+    --bz-topbar-bg: #ffffff;
+    --bz-mobile-hover-bg: rgba(0, 0, 0, 0.03);
+
+    /* Типографика */
+    --bz-font-size-sm: 13px;
+    --bz-font-size-base: 14px;
+    --bz-font-size-lg: 18px;
+    --bz-font-size-xl: 20px;
+    --bz-letter-spacing: 0.02em;
+
+    /* Скругления */
+    --bz-topbar-radius: var(--bz-bar-radius) var(--bz-bar-radius) 0 0;
+    --bz-mobile-toggle-radius: 0 0 var(--bz-bar-radius) var(--bz-bar-radius);
+    --bz-mobile-menu-radius: 0 0 var(--bz-bar-radius) var(--bz-bar-radius);
+
+    /* Размеры и отступы */
+    --bz-social-icon-size: 48px;
+    --bz-dropdown-padding: 24px 28px;
+    --bz-topbar-padding: 18px 24px;
+    --bz-container-max-width: 1440px;
+    --bz-container-min-width: 1260px;
 }
 
 /* Сброс стилей внутри виджета */
@@ -162,8 +189,8 @@ const WIDGET_CONFIG = {
 
 /* Внешний контейнер страницы */
 #bz-menu-root {
-    min-width: 1260px;
-    max-width: 1440px;
+    min-width: var(--bz-container-min-width);
+    max-width: var(--bz-container-max-width);
     margin-left: auto;
     margin-right: auto;
     padding-left: 1rem;
@@ -174,7 +201,7 @@ const WIDGET_CONFIG = {
     position: relative;
     width: 100%;
     font-family: var(--bz-font);
-    font-size: 14px;
+    font-size: var(--bz-font-size-base);
     line-height: 1.4;
     z-index: 90;
 }
@@ -209,9 +236,9 @@ const WIDGET_CONFIG = {
     padding: 0 12px;
     color: var(--bz-bar-text);
     text-decoration: none;
-    font-size: 13px;
+    font-size: var(--bz-font-size-sm);
     font-weight: 500;
-    letter-spacing: 0.02em;
+    letter-spacing: var(--bz-letter-spacing);
     white-space: nowrap;
     cursor: pointer;
     transition: background var(--bz-transition);
@@ -249,7 +276,7 @@ const WIDGET_CONFIG = {
     background: var(--bz-dropdown-bg);
     border-radius: var(--bz-dropdown-radius);
     box-shadow: var(--bz-dropdown-shadow);
-    padding: 24px 28px;
+    padding: var(--bz-dropdown-padding);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-4px);
@@ -279,12 +306,12 @@ const WIDGET_CONFIG = {
 
 .bz-dropdown__group-title {
     display: block;
-    font-size: 14px;
+    font-size: var(--bz-font-size-base);
     font-weight: 700;
     color: var(--bz-group-title-color);
     margin-bottom: 8px;
     padding-bottom: 6px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--bz-border-color);
 }
 
 /* Плоский список (для разделов без groups) */
@@ -306,7 +333,7 @@ const WIDGET_CONFIG = {
     display: inline-block;
     color: var(--bz-link-color);
     text-decoration: none;
-    font-size: 13px;
+    font-size: var(--bz-font-size-sm);
     font-weight: 400;
     padding: 2px 0;
     transition: color var(--bz-transition);
@@ -323,16 +350,16 @@ const WIDGET_CONFIG = {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 18px 24px;
-    background: #ffffff;
-    border-radius: 8px 8px 0 0;
+    padding: var(--bz-topbar-padding);
+    background: var(--bz-topbar-bg);
+    border-radius: var(--bz-topbar-radius);
 }
 
 .bz-topbar__slogan {
-    font-size: 18px;
+    font-size: var(--bz-font-size-lg);
     font-weight: 500;
-    letter-spacing: 0.02em;
-    color: rgba(46, 73, 69, 0.75);
+    letter-spacing: var(--bz-letter-spacing);
+    color: rgba(var(--bz-accent-rgb), 0.75);
     max-width: 340px;
     line-height: 1.35;
 }
@@ -347,11 +374,11 @@ const WIDGET_CONFIG = {
 }
 
 .bz-topbar__phone {
-    font-size: 20px;
+    font-size: var(--bz-font-size-xl);
     font-weight: 600;
-    color: rgb(46, 73, 69);
+    color: var(--bz-accent);
     text-decoration: none;
-    letter-spacing: 0.02em;
+    letter-spacing: var(--bz-letter-spacing);
     white-space: nowrap;
     transition: color var(--bz-transition);
 }
@@ -363,34 +390,34 @@ const WIDGET_CONFIG = {
 }
 
 .bz-topbar__phone:hover {
-    color: rgba(46, 73, 69, 0.55);
+    color: var(--bz-accent-hover);
 }
 
 .bz-topbar__social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    color: rgb(46, 73, 69);
+    width: var(--bz-social-icon-size);
+    height: var(--bz-social-icon-size);
+    color: var(--bz-accent);
     transition: color var(--bz-transition);
     text-decoration: none;
 }
 
 .bz-topbar__social-link:hover {
-    color: rgba(46, 73, 69, 0.8);
+    color: rgba(var(--bz-accent-rgb), 0.8);
 }
 
 .bz-topbar__social-link svg {
-    width: 48px;
-    height: 48px;
+    width: var(--bz-social-icon-size);
+    height: var(--bz-social-icon-size);
     fill: currentColor;
     display: block;
 }
 
 /* Визуальная связка topbar + bar */
 .bz-menu--has-topbar .bz-bar {
-    border-radius: 0 0 8px 8px;
+    border-radius: var(--bz-bar-radius);
 }
 
 /* ===== Мобильный toggle (гамбургер) ===== */
@@ -404,16 +431,16 @@ const WIDGET_CONFIG = {
     background: var(--bz-bar-bg);
     color: var(--bz-bar-text);
     border: none;
-    border-radius: 0 0 8px 8px;
+    border-radius: var(--bz-mobile-toggle-radius);
     font-family: var(--bz-font);
-    font-size: 14px;
+    font-size: var(--bz-font-size-base);
     font-weight: 500;
     cursor: pointer;
     user-select: none;
 }
 
 .bz-mobile-toggle__icon {
-    font-size: 20px;
+    font-size: var(--bz-font-size-xl);
     line-height: 1;
     transition: transform var(--bz-transition);
 }
@@ -428,7 +455,7 @@ const WIDGET_CONFIG = {
     flex-direction: column;
     width: 100%;
     background: var(--bz-dropdown-bg);
-    border-radius: 0 0 8px 8px;
+    border-radius: var(--bz-mobile-menu-radius);
     box-shadow: var(--bz-dropdown-shadow);
     overflow: hidden;
 }
@@ -438,7 +465,7 @@ const WIDGET_CONFIG = {
 }
 
 .bz-mobile-menu__category {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--bz-border-color);
 }
 
 .bz-mobile-menu__category:last-child {
@@ -454,7 +481,7 @@ const WIDGET_CONFIG = {
     background: none;
     border: none;
     font-family: var(--bz-font);
-    font-size: 14px;
+    font-size: var(--bz-font-size-base);
     font-weight: 600;
     color: var(--bz-group-title-color);
     cursor: pointer;
@@ -463,7 +490,7 @@ const WIDGET_CONFIG = {
 }
 
 .bz-mobile-menu__header:hover {
-    background: rgba(0, 0, 0, 0.03);
+    background: var(--bz-mobile-hover-bg);
 }
 
 .bz-mobile-menu__arrow {
@@ -492,12 +519,12 @@ const WIDGET_CONFIG = {
 }
 
 .bz-mobile-menu__group-title {
-    font-size: 13px;
+    font-size: var(--bz-font-size-sm);
     font-weight: 700;
     color: var(--bz-group-title-color);
     margin: 8px 0 4px;
     padding-bottom: 4px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--bz-border-color);
 }
 
 .bz-mobile-menu__group-title:first-child {
@@ -508,7 +535,7 @@ const WIDGET_CONFIG = {
     display: block;
     color: var(--bz-link-color);
     text-decoration: none;
-    font-size: 13px;
+    font-size: var(--bz-font-size-sm);
     font-weight: 400;
     padding: 4px 0;
 }
