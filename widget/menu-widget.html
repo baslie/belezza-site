@@ -1,0 +1,478 @@
+<script>
+// =====================================================
+// ===== КОНФИГУРАЦИЯ МЕНЮ =====
+// Редактируйте только этот массив.
+// Порядок объектов = порядок пунктов в меню.
+// =====================================================
+const MENU_DATA = [{
+        title: "Ткани по назначению",
+        href: null,
+        groups: [{
+                title: "На костюм / брюки / жакет",
+                items: [
+                    { name: "Бархат/велюр/вельвет", href: "/categories/barhat-velyur-velvet" },
+                    { name: "Вискоза", href: "/categories/viskoza-kostumnaya" },
+                    { name: "Жаккард", href: "/categories/zhakkard-kostumnyy" },
+                    { name: "Креп костюмный", href: "/categories/krep-kostumnyy" },
+                    { name: "Лён", href: "/categories/lyon-kostumnyy" },
+                    { name: "Поливискоза", href: "/categories/poliviskoza" },
+                    { name: "Сатин/атлас", href: "/categories/satin-atlas" },
+                    { name: "Твид", href: "/categories/tvid" },
+                    { name: "Хлопок", href: "/categories/hlopok-kostumnyy" },
+                    { name: "Шерсть костюмная", href: "/categories/sherst-kostumnaya" }
+                ]
+            },
+            {
+                title: "На куртку / плащ",
+                items: [
+                    { name: "Курточно-плащевые", href: "/categories/kurtochno-plashchevye" },
+                    { name: "Экокожа", href: "/categories/ekokozha" }
+                ]
+            },
+            {
+                title: "На пальто",
+                items: [
+                    { name: "Пальтовые", href: "/categories/paltovye" },
+                    { name: "Твид", href: "/categories/tvid-palto" }
+                ]
+            },
+            {
+                title: "На платье / блузку / рубашку",
+                items: [
+                    { name: "Батист", href: "/categories/batist" },
+                    { name: "Вышивка/шитьё", href: "/categories/vyshivka-shityo" },
+                    { name: "Жаккард", href: "/categories/zhakkard-platelnyy" },
+                    { name: "Кади", href: "/categories/kadi" },
+                    { name: "Креп", href: "/categories/krep" },
+                    { name: "Купро", href: "/categories/kupro" },
+                    { name: "Лён", href: "/categories/lyon-platelnyy" },
+                    { name: "Микровельвет/велюр", href: "/categories/mikrovelvet-velyur" },
+                    { name: "Органза", href: "/categories/organza" },
+                    { name: "Пайетки", href: "/categories/payetki" },
+                    { name: "Плательная вискоза", href: "/categories/platelnaya-viskoza" },
+                    { name: "Поплин", href: "/categories/poplin" },
+                    { name: "Сатин", href: "/categories/satin-platelnyy" },
+                    { name: "Сирсакер", href: "/categories/sirsaker" },
+                    { name: "Твил", href: "/categories/tvil" },
+                    { name: "Тонкая шерсть", href: "/categories/tonkaya-sherst" },
+                    { name: "Шифон", href: "/categories/shifon" }
+                ]
+            },
+            {
+                title: "На подклад",
+                items: [
+                    { name: "Подкладка", href: "/categories/podkladka" }
+                ]
+            },
+            {
+                title: "На повседневную одежду",
+                items: [
+                    { name: "Вискозный трикотаж", href: "/categories/viskoznyy-trikotazh" },
+                    { name: "Джерси/пунто милано", href: "/categories/dzhersi-punto-milano" },
+                    { name: "Интерлок", href: "/categories/interlok" },
+                    { name: "Костюмный трикотаж", href: "/categories/kostumnyy-trikotazh" },
+                    { name: "Кулирная гладь", href: "/categories/kulirnaya-glad" },
+                    { name: "Рибана", href: "/categories/ribana" },
+                    { name: "Рубчик", href: "/categories/rubchik" },
+                    { name: "Футер", href: "/categories/futer" },
+                    { name: "Шерсть", href: "/categories/sherst-trikotazh" }
+                ]
+            }
+        ]
+    },
+    {
+        title: "Трикотаж",
+        href: "/categories/trikotazh",
+        items: [
+            { name: "Вискозный трикотаж", href: "/categories/viskoznyy-trikotazh" },
+            { name: "Джерси/пунто милано", href: "/categories/dzhersi-punto-milano" },
+            { name: "Интерлок", href: "/categories/interlok" },
+            { name: "Костюмный трикотаж", href: "/categories/kostumnyy-trikotazh" },
+            { name: "Кулирная гладь", href: "/categories/kulirnaya-glad" },
+            { name: "Рибана", href: "/categories/ribana" },
+            { name: "Рубчик", href: "/categories/rubchik" },
+            { name: "Футер", href: "/categories/futer" },
+            { name: "Шерсть", href: "/categories/sherst-trikotazh" }
+        ]
+    },
+    {
+        title: "Деним и плотный хлопок",
+        href: "/categories/denim",
+        items: [
+            { name: "Джинс", href: "/categories/dzhins" },
+            { name: "Саржа", href: "/categories/sarzha" }
+        ]
+    },
+    {
+        title: "Отделка и специальные ткани",
+        href: null,
+        items: [
+            { name: "Вышивка/шитьё", href: "/categories/vyshivka-shityo" },
+            { name: "Пайетки", href: "/categories/payetki" },
+            { name: "Сетка/кружево", href: "/categories/setka-kruzhevo" }
+        ]
+    }
+];
+</script>
+<style>
+/* =====================================================
+   Belezza Menu Widget — изолированные стили (префикс bz-)
+   ===================================================== */
+
+/* CSS-переменные виджета для быстрой кастомизации */
+.bz-menu {
+    --bz-bar-bg: rgb(46, 73, 69);
+    --bz-bar-text: #ffffff;
+    --bz-bar-hover: rgba(255, 255, 255, 0.12);
+    --bz-bar-height: 44px;
+    --bz-bar-radius: 8px;
+    --bz-dropdown-bg: #ffffff;
+    --bz-dropdown-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    --bz-dropdown-radius: 0 0 16px 16px;
+    --bz-group-title-color: #1A1E24;
+    --bz-link-color: #4c0600;
+    --bz-link-hover: #7a1a0f;
+    --bz-font: Raleway, "Helvetica Neue", Arial, sans-serif;
+    --bz-transition: 180ms ease;
+}
+
+/* Сброс стилей внутри виджета */
+.bz-menu,
+.bz-menu *,
+.bz-menu *::before,
+.bz-menu *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.bz-menu {
+    position: relative;
+    width: 100%;
+    font-family: var(--bz-font);
+    font-size: 14px;
+    line-height: 1.4;
+    z-index: 90;
+}
+
+/* ===== Бар категорий ===== */
+.bz-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--bz-bar-height);
+    background: var(--bz-bar-bg);
+    border-radius: var(--bz-bar-radius);
+    list-style: none;
+    overflow: hidden;
+}
+
+.bz-bar__item {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+}
+
+.bz-bar__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 12px;
+    color: var(--bz-bar-text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background var(--bz-transition);
+    user-select: none;
+}
+
+.bz-bar__link:hover,
+.bz-bar__item--active .bz-bar__link {
+    background: var(--bz-bar-hover);
+}
+
+/* Стрелка-индикатор dropdown */
+.bz-bar__arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 6px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--bz-bar-text);
+    transition: transform var(--bz-transition);
+    flex-shrink: 0;
+}
+
+.bz-bar__item--active .bz-bar__arrow {
+    transform: rotate(180deg);
+}
+
+/* ===== Mega-dropdown ===== */
+.bz-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--bz-dropdown-bg);
+    border-radius: var(--bz-dropdown-radius);
+    box-shadow: var(--bz-dropdown-shadow);
+    padding: 24px 28px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity var(--bz-transition), transform var(--bz-transition), visibility var(--bz-transition);
+    pointer-events: none;
+    z-index: 91;
+}
+
+.bz-dropdown--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Раскладка групп (для "Ткани по назначению" — многоколоночная) */
+.bz-dropdown__groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 32px;
+}
+
+.bz-dropdown__group {
+    min-width: 180px;
+    flex: 0 1 auto;
+}
+
+.bz-dropdown__group-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bz-group-title-color);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Плоский список (для разделов без groups) */
+.bz-dropdown__flat {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 32px;
+}
+
+/* Список подкатегорий */
+.bz-dropdown__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.bz-dropdown__link {
+    display: inline-block;
+    color: var(--bz-link-color);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 2px 0;
+    transition: color var(--bz-transition);
+}
+
+.bz-dropdown__link:hover {
+    color: var(--bz-link-hover);
+    text-decoration: underline;
+}
+</style>
+<div id="bz-menu-root"></div>
+<script>
+(function() {
+    "use strict";
+
+    var root = document.getElementById("bz-menu-root");
+    if (!root || typeof MENU_DATA === "undefined") return;
+
+    // ----- Рендеринг -----
+    function renderBar(data) {
+        var nav = document.createElement("nav");
+        nav.className = "bz-menu";
+
+        var bar = document.createElement("ul");
+        bar.className = "bz-bar";
+
+        data.forEach(function(section, idx) {
+            var li = document.createElement("li");
+            li.className = "bz-bar__item";
+            li.setAttribute("data-index", idx);
+
+            var hasDropdown = (section.groups && section.groups.length) || (section.items && section.items.length);
+
+            var link;
+            if (section.href) {
+                link = document.createElement("a");
+                link.href = section.href;
+            } else {
+                link = document.createElement("span");
+            }
+            link.className = "bz-bar__link";
+            link.textContent = section.title;
+
+            if (hasDropdown) {
+                var arrow = document.createElement("span");
+                arrow.className = "bz-bar__arrow";
+                link.appendChild(arrow);
+            }
+
+            li.appendChild(link);
+            bar.appendChild(li);
+        });
+
+        nav.appendChild(bar);
+
+        // Dropdown-контейнер (один, переиспользуется)
+        var dropdown = document.createElement("div");
+        dropdown.className = "bz-dropdown";
+        nav.appendChild(dropdown);
+
+        return nav;
+    }
+
+    function renderDropdownContent(section) {
+        var frag = document.createDocumentFragment();
+
+        if (section.groups && section.groups.length) {
+            var wrap = document.createElement("div");
+            wrap.className = "bz-dropdown__groups";
+
+            section.groups.forEach(function(group) {
+                var col = document.createElement("div");
+                col.className = "bz-dropdown__group";
+
+                var title = document.createElement("span");
+                title.className = "bz-dropdown__group-title";
+                title.textContent = group.title;
+                col.appendChild(title);
+
+                var ul = document.createElement("ul");
+                ul.className = "bz-dropdown__list";
+                group.items.forEach(function(item) {
+                    var li = document.createElement("li");
+                    var a = document.createElement("a");
+                    a.className = "bz-dropdown__link";
+                    a.href = item.href;
+                    a.textContent = item.name;
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+                col.appendChild(ul);
+                wrap.appendChild(col);
+            });
+
+            frag.appendChild(wrap);
+        } else if (section.items && section.items.length) {
+            var flat = document.createElement("div");
+            flat.className = "bz-dropdown__flat";
+
+            section.items.forEach(function(item) {
+                var a = document.createElement("a");
+                a.className = "bz-dropdown__link";
+                a.href = item.href;
+                a.textContent = item.name;
+                flat.appendChild(a);
+            });
+
+            frag.appendChild(flat);
+        }
+
+        return frag;
+    }
+
+    // ----- Монтирование -----
+    var nav = renderBar(MENU_DATA);
+    root.appendChild(nav);
+
+    var dropdown = nav.querySelector(".bz-dropdown");
+    var barItems = nav.querySelectorAll(".bz-bar__item");
+    var activeIndex = -1;
+    var hideTimer = null;
+    var showTimer = null;
+    var SHOW_DELAY = 150;
+    var HIDE_DELAY = 200;
+
+    function showDropdown(idx) {
+        var section = MENU_DATA[idx];
+        var hasContent = (section.groups && section.groups.length) || (section.items && section.items.length);
+        if (!hasContent) {
+            hideDropdown();
+            return;
+        }
+
+        // Убрать active с предыдущего
+        if (activeIndex >= 0 && barItems[activeIndex]) {
+            barItems[activeIndex].classList.remove("bz-bar__item--active");
+        }
+
+        activeIndex = idx;
+        barItems[idx].classList.add("bz-bar__item--active");
+
+        // Обновить содержимое
+        dropdown.innerHTML = "";
+        dropdown.appendChild(renderDropdownContent(section));
+        dropdown.classList.add("bz-dropdown--visible");
+    }
+
+    function hideDropdown() {
+        if (activeIndex >= 0 && barItems[activeIndex]) {
+            barItems[activeIndex].classList.remove("bz-bar__item--active");
+        }
+        activeIndex = -1;
+        dropdown.classList.remove("bz-dropdown--visible");
+    }
+
+    function clearTimers() {
+        clearTimeout(hideTimer);
+        clearTimeout(showTimer);
+    }
+
+    // ----- Hover-логика с debounce -----
+    barItems.forEach(function(item, idx) {
+        item.addEventListener("mouseenter", function() {
+            clearTimers();
+            showTimer = setTimeout(function() {
+                showDropdown(idx);
+            }, SHOW_DELAY);
+        });
+
+        item.addEventListener("mouseleave", function() {
+            clearTimers();
+            hideTimer = setTimeout(hideDropdown, HIDE_DELAY);
+        });
+    });
+
+    dropdown.addEventListener("mouseenter", function() {
+        clearTimers();
+    });
+
+    dropdown.addEventListener("mouseleave", function() {
+        clearTimers();
+        hideTimer = setTimeout(hideDropdown, HIDE_DELAY);
+    });
+
+    // Закрытие по клику вне виджета
+    document.addEventListener("click", function(e) {
+        if (!nav.contains(e.target)) {
+            clearTimers();
+            hideDropdown();
+        }
+    });
+})();
+</script>
