@@ -516,14 +516,15 @@
     }
 
     .bz-mobile-menu__body {
-        display: none;
+        overflow: hidden;
+        height: 0;
+        transition: height 280ms ease;
+    }
+
+    .bz-mobile-menu__body-inner {
         padding: 0 16px 12px;
         columns: 2;
         column-gap: 24px;
-    }
-
-    .bz-mobile-menu__category--open .bz-mobile-menu__body {
-        display: block;
     }
 
     .bz-mobile-menu__group {
@@ -604,9 +605,17 @@
         }
 
         .bz-mobile-menu__body {
+            margin: 0 8px;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .bz-mobile-menu__category--open .bz-mobile-menu__body {
+            margin-bottom: 8px;
+        }
+
+        .bz-mobile-menu__body-inner {
             background: var(--bz-dropdown-bg);
             border-radius: 0 0 4px 4px;
-            margin: 0 8px 8px;
             padding: 8px 12px 12px;
             columns: 2;
             column-gap: 16px;
@@ -653,7 +662,7 @@
     }
 
     @media (max-width: 400px) {
-        .bz-mobile-menu__body {
+        .bz-mobile-menu__body-inner {
             columns: 1;
         }
     }
@@ -742,6 +751,80 @@
             return topbar;
         }
 
+        // ----- Аккордеон: анимация раскрытия/схлопывания -----
+        function expandCategory(categoryEl) {
+            var body = categoryEl.querySelector(".bz-mobile-menu__body");
+            if (!body) return;
+
+            // Убрать stale-листенер
+            if (body._bzTransEnd) {
+                body.removeEventListener("transitionend", body._bzTransEnd);
+            }
+
+            categoryEl.classList.add("bz-mobile-menu__category--open");
+
+            // Измеряем натуральную высоту
+            body.style.height = "auto";
+            var fullHeight = body.scrollHeight;
+            body.style.height = (body.offsetHeight || 0) + "px";
+            body.offsetHeight; // reflow
+
+            // Запускаем переход
+            body.style.height = fullHeight + "px";
+
+            body._bzTransEnd = function(e) {
+                if (e.propertyName !== "height") return;
+                body.removeEventListener("transitionend", body._bzTransEnd);
+                body._bzTransEnd = null;
+                if (categoryEl.classList.contains("bz-mobile-menu__category--open")) {
+                    body.style.height = "auto";
+                }
+            };
+            body.addEventListener("transitionend", body._bzTransEnd);
+        }
+
+        function collapseCategory(categoryEl) {
+            var body = categoryEl.querySelector(".bz-mobile-menu__body");
+            if (!body) return;
+
+            // Убрать stale-листенер
+            if (body._bzTransEnd) {
+                body.removeEventListener("transitionend", body._bzTransEnd);
+            }
+
+            // Зафиксировать текущую высоту, чтобы переход мог начаться
+            body.style.height = body.scrollHeight + "px";
+            body.offsetHeight; // reflow
+
+            categoryEl.classList.remove("bz-mobile-menu__category--open");
+            body.style.height = "0px";
+
+            body._bzTransEnd = function(e) {
+                if (e.propertyName !== "height") return;
+                body.removeEventListener("transitionend", body._bzTransEnd);
+                body._bzTransEnd = null;
+                if (!categoryEl.classList.contains("bz-mobile-menu__category--open")) {
+                    body.style.height = "";
+                }
+            };
+            body.addEventListener("transitionend", body._bzTransEnd);
+        }
+
+        function resetAllCategories(container) {
+            var openCats = container.querySelectorAll(".bz-mobile-menu__category--open");
+            for (var i = 0; i < openCats.length; i++) {
+                openCats[i].classList.remove("bz-mobile-menu__category--open");
+                var body = openCats[i].querySelector(".bz-mobile-menu__body");
+                if (body) {
+                    if (body._bzTransEnd) {
+                        body.removeEventListener("transitionend", body._bzTransEnd);
+                        body._bzTransEnd = null;
+                    }
+                    body.style.height = "";
+                }
+            }
+        }
+
         // ----- Рендеринг мобильного меню -----
         function renderMobileToggle() {
             var btn = document.createElement("button");
@@ -778,6 +861,9 @@
                     var body = document.createElement("div");
                     body.className = "bz-mobile-menu__body";
 
+                    var bodyInner = document.createElement("div");
+                    bodyInner.className = "bz-mobile-menu__body-inner";
+
                     if (section.groups && section.groups.length) {
                         section.groups.forEach(function(group) {
                             var wrapper = document.createElement("div");
@@ -796,7 +882,7 @@
                                 wrapper.appendChild(a);
                             });
 
-                            body.appendChild(wrapper);
+                            bodyInner.appendChild(wrapper);
                         });
                     } else if (section.items && section.items.length) {
                         section.items.forEach(function(item) {
@@ -804,15 +890,31 @@
                             a.className = "bz-mobile-menu__link";
                             a.href = item.href;
                             a.textContent = item.name;
-                            body.appendChild(a);
+                            bodyInner.appendChild(a);
                         });
                     }
 
+                    body.appendChild(bodyInner);
                     cat.appendChild(body);
 
-                    // Аккордеон: toggle по клику
+                    // Аккордеон: только один открыт одновременно, с анимацией
                     header.addEventListener("click", function() {
-                        cat.classList.toggle("bz-mobile-menu__category--open");
+                        var isOpen = cat.classList.contains("bz-mobile-menu__category--open");
+
+                        // Закрыть все остальные открытые категории
+                        var openCats = menu.querySelectorAll(".bz-mobile-menu__category--open");
+                        for (var j = 0; j < openCats.length; j++) {
+                            if (openCats[j] !== cat) {
+                                collapseCategory(openCats[j]);
+                            }
+                        }
+
+                        // Переключить текущую
+                        if (isOpen) {
+                            collapseCategory(cat);
+                        } else {
+                            expandCategory(cat);
+                        }
                     });
                 } else if (section.href) {
                     // Категория без подменю — клик = переход
@@ -944,11 +1046,8 @@
                 mobileMenu.classList.add("bz-mobile-menu--open");
             } else {
                 mobileMenu.classList.remove("bz-mobile-menu--open");
-                // Закрыть все раскрытые категории
-                var openCats = mobileMenu.querySelectorAll(".bz-mobile-menu__category--open");
-                for (var i = 0; i < openCats.length; i++) {
-                    openCats[i].classList.remove("bz-mobile-menu__category--open");
-                }
+                // Мгновенно закрыть все категории (без анимации — меню само скрывается)
+                resetAllCategories(mobileMenu);
             }
         });
 
@@ -1029,6 +1128,7 @@
                 // Закрыть мобильное меню
                 mobileToggle.classList.remove("bz-mobile-toggle--open");
                 mobileMenu.classList.remove("bz-mobile-menu--open");
+                resetAllCategories(mobileMenu);
             }
         });
 
@@ -1041,10 +1141,7 @@
             hideDropdown();
             mobileToggle.classList.remove("bz-mobile-toggle--open");
             mobileMenu.classList.remove("bz-mobile-menu--open");
-            var openCats = mobileMenu.querySelectorAll(".bz-mobile-menu__category--open");
-            for (var i = 0; i < openCats.length; i++) {
-                openCats[i].classList.remove("bz-mobile-menu__category--open");
-            }
+            resetAllCategories(mobileMenu);
         }
         if (mql.addEventListener) {
             mql.addEventListener("change", onMediaChange);
